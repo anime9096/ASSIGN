@@ -1,0 +1,23 @@
+// Turn ON alternate LEDs, wait for a delay, then turn OFF all LEDs again.
+
+#include <REG51.h>
+
+void delay(int count)
+{
+    int i, j;
+    for (i = 0; i < count; i++)
+    {
+        for (j = 0; j < 10000; j++);
+    }
+}
+
+void main()
+{
+    while (1)
+    {
+        P2 = 0x55;   // Binary: 01010101 - alternate LEDs ON
+        delay(10);
+        P2 = 0x00;   // Turn OFF all LEDs
+        delay(10);
+    }
+}

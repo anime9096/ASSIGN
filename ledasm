@@ -1,0 +1,51 @@
+//Turn ON all LEDs connected to Port, wait for a short delay, then turn OFF all LEDs.
+
+ORG 0000H      ; Origin of program memory
+
+MAIN:
+    MOV P2, #0FFH  ; Turn ON all LEDs (P2 = 0xFF)
+    CALL DELAY     ; Call delay subroutine
+    MOV P2, #00H   ; Turn OFF all LEDs (P2 = 0x00)
+    CALL DELAY     ; Call delay subroutine
+    SJMP MAIN      ; Repeat forever
+
+; Delay subroutine
+DELAY:
+    MOV R3, #10    ; Outer loop count (equivalent to delay(10))
+DELAY_LOOP1:
+    MOV R2, #100   ; Inner loop count (adjust for timing)
+DELAY_LOOP2:
+    MOV R1, #100   ; Innermost loop count
+DELAY_LOOP3:
+    DJNZ R1, DELAY_LOOP3
+    DJNZ R2, DELAY_LOOP2
+    DJNZ R3, DELAY_LOOP1
+    RET           ; Return from subroutine
+
+END
+
+
+// Turn ON alternate LEDs, wait for a delay, then turn OFF all LEDs again.
+
+ORG 0000H       ; Origin
+
+MAIN:
+    MOV P2, #055H    ; 01010101 - Turn ON alternate LEDs (P2.0, P2.2, etc.)
+    CALL DELAY       ; Wait
+    MOV P2, #00H     ; Turn OFF all LEDs
+    CALL DELAY       ; Wait
+    SJMP MAIN        ; Repeat forever
+
+; Delay Routine
+DELAY:
+    MOV R3, #10      ; Outer loop (adjust as needed)
+DELAY_LOOP1:
+    MOV R2, #100
+DELAY_LOOP2:
+    MOV R1, #100
+DELAY_LOOP3:
+    DJNZ R1, DELAY_LOOP3
+    DJNZ R2, DELAY_LOOP2
+    DJNZ R3, DELAY_LOOP1
+    RET
+END

@@ -1,0 +1,59 @@
+#include<reg51.h>
+
+#define lcd P1
+
+sbit rs = P2^2;
+sbit rw = P2^1;
+sbit en = P2^0;
+
+void lcd_init();
+void cmd(unsigned char);
+void dat(unsigned char);
+void lcd_string(unsigned char *);
+void delay(unsigned int);
+
+void main() {
+    lcd_init();
+    while(1) {
+        cmd(0xC0);              
+        lcd_string("KKWIEER");
+    }
+}
+
+void lcd_init() {
+    cmd(0x38);    
+    cmd(0x0E);    
+    cmd(0x06);    
+    cmd(0x01);    
+    delay(2000);
+}
+
+void cmd(unsigned char x) {
+    lcd = x;
+    rs = 0;
+    rw = 0;
+    en = 1;
+    delay(1);
+    en = 0;
+}
+
+void dat(unsigned char y) {
+    lcd = y;
+    rs = 1;
+    rw = 0;
+    en = 1;
+    delay(1);
+    en = 0;
+}
+
+void lcd_string(unsigned char *s) {
+    while(*s) {
+        dat(*s++);
+    }
+}
+
+void delay(unsigned int z) {
+    unsigned int i, j;
+    for(i = 0; i < z; i++)
+        for(j = 0; j < 1275; j++);
+}
